@@ -1,0 +1,29 @@
+# ==========================================
+# .gitignore para Proyecto GolfClass (PHP)
+# ==========================================
+
+# 1. Archivos de Configuración y Seguridad
+# el archivo de conexión real para no filtrar contraseñas
+includes/db.php
+
+# 2. Archivos subidos por los usuarios
+# el contenido de uploads
+uploads/*
+!uploads/.gitkeep
+
+# 3. Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 4. Archivos de Editores de Código (IDE)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# 5. Logs y errores
+error_log
+*.log
