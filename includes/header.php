@@ -11,19 +11,89 @@ if (session_status() === PHP_SESSION_NONE) {
     <title>GolfClass - Reserva tus clases</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
-        .navbar { background-color: #ffffff; border-bottom: 2px solid #e9ecef; }
-        .navbar-brand { font-weight: 700; color: #1a431d !important; }
-        .btn-golf { background-color: #28a745; color: white; border-radius: 8px; }
-        .btn-golf:hover { background-color: #218838; color: white; }
-    </style>
+<style>
+    :root {
+        --golf-red: #ea3c3c; /* El rojo estilo Skillest */
+        --golf-red-hover: #d12e2e;
+        --golf-dark: #1a1a1a;
+    }
+    
+    body { 
+        font-family: 'Inter', sans-serif; 
+        background-color: #f8f9fa; 
+    }
+    
+    .navbar { 
+        background-color: #ffffff; 
+        border-bottom: 1px solid #eaeaea;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    /* Logo oscuro con un toque rojo opcional */
+    .navbar-brand { 
+        font-weight: 700; 
+        color: var(--golf-dark) !important; 
+    }
+    
+    /* Nuestro botón principal personalizado */
+    .btn-golf { 
+        background-color: var(--golf-red); 
+        color: white; 
+        border-radius: 6px; 
+        font-weight: 600;
+        border: none;
+        padding: 8px 20px;
+    }
+    
+    .btn-golf:hover { 
+        background-color: var(--golf-red-hover); 
+        color: white; 
+    }
+
+    /* Clase para textos destacados */
+    .text-golf {
+        color: var(--golf-red) !important;
+    }
+
+    /* Botón outline blanco */
+    .btn-outline-white {
+        color: white;
+        border: 2px solid white;
+        background-color: transparent;
+        font-weight: 600;
+        border-radius: 6px;
+    }
+
+    .btn-outline-white:hover {
+        color: var(--golf-red);
+        background-color: white;
+        border-color: white;
+    }
+
+    .navbar-nav .nav-link {
+        color: var(--golf-dark) !important;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: var(--golf-red) !important;
+    }
+
+    .navbar-toggler {
+        border-color: var(--golf-dark);
+    }
+
+    .navbar-toggler-icon {
+        filter: none;
+    }
+</style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg sticky-top mb-4">
+<nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="/GolfClass/index.php">⛳ GolfClass</a>
+        <a class="navbar-brand text-golf" href="/GolfClass/index.php">GolfClass</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
