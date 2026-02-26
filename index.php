@@ -4,9 +4,9 @@ include 'includes/header.php';
 
 <div class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/img/header.webp') center/cover no-repeat; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
     <div class="container-fluid py-5 text-center">
-        <h1 class="display-3 fw-bold text-white mb-3">No necesitas más videos de Youtube, necesitas <span class="text-golf">GolfClass.</span></h1>
+        <h1 class="display-3 fw-bold text-white mb-3">No necesitas más vídeos de Youtube, necesitas <span class="text-golf">GolfClass.</span></h1>
         <p class="col-md-8 mx-auto fs-5 text-white mb-4">
-            La plataforma diseñada para conectarte con los mejores instructores de golf. 
+            La plataforma diseñada para conectarte con los mejores instructores del mundo 🌍.
             <?php if(isset($_SESSION['user_name'])): ?>
                 <br><br>¡Hola de nuevo, <strong class="text-white"><?php echo $_SESSION['user_name']; ?></strong>!
             <?php endif; ?>

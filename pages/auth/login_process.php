@@ -15,9 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 2. Verificamos si existe y si la contraseña es correcta
     if ($user && password_verify($password, $user['password'])) {
         
-        // 3. Verificamos si la cuenta está activa (Baja lógica)
+
+    // 3. Verificamos si la cuenta está activa (Baja lógica)
         if ($user['activo'] == 0) {
-            die("Tu cuenta está desactivada. Contacta con soporte.");
+        // En lugar de morir (die), redirigimos a la página de reactivación pasando el email por URL
+            header("Location: reactivate.php?email=" . urlencode($email));
+            exit();
         }
 
         // 4. Creamos las variables de sesión
