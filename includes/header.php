@@ -99,16 +99,18 @@ if (session_status() === PHP_SESSION_NONE) {
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item"><a class="nav-link" href="/GolfClass/index.php">Profesores</a></li>
-                
+                <li class="nav-item"><a class="nav-link" href="/GolfClass/index.php">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="/GolfClass/pages/profesores/catalogo.php">Instructores</a></li>
+
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <?php if ($_SESSION['user_role'] == 1): ?>
                         <li class="nav-item"><a class="nav-link fw-semibold text-golf" href="/GolfClass/pages/admin/panel.php">Panel Admin</a></li>
-                    <?php endif; ?>
-                    <?php if ($_SESSION['user_role'] == 3): ?>
+                    <?php elseif ($_SESSION['user_role'] == 2): ?>
+                        <li class="nav-item"><a class="nav-link" href="/GolfClass/pages/teacher/edit_profile.php">Mi Perfil Coach</a></li>
+                    <?php elseif ($_SESSION['user_role'] == 3): ?>
                         <li class="nav-item"><a class="nav-link" href="/GolfClass/pages/student/mis_reservas.php">Mis Reservas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/GolfClass/pages/student/profile.php">Mi Perfil</a></li>
                     <?php endif; ?>
-                    <li class="nav-item"><a class="nav-link" href="/GolfClass/pages/student/profile.php">Mi Perfil</a></li>
                     <li class="nav-item">
                         <span class="badge bg-light text-dark border ms-2 p-2">
                             👤 <?php echo htmlspecialchars($_SESSION['user_name']); ?>
@@ -116,8 +118,11 @@ if (session_status() === PHP_SESSION_NONE) {
                     </li>
                     <li class="nav-item"><a class="btn btn-outline-danger btn-sm ms-3" href="/GolfClass/pages/auth/logout.php">Salir</a></li>
                 <?php else: ?>
+                    <li class="nav-item ms-lg-2">
+                        <a class="nav-link text-muted" href="/GolfClass/pages/auth/register.php?role=teacher">¿Eres Coach?</a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="/GolfClass/pages/auth/login.php">Iniciar Sesión</a></li>
-                    <li class="nav-item"><a class="btn btn-golf ms-lg-3" href="/GolfClass/pages/auth/register.php">Registrarse</a></li>
+                    <li class="nav-item"><a class="btn btn-golf ms-lg-2" href="/GolfClass/pages/auth/register.php">Registrarse</a></li>
                 <?php endif; ?>
             </ul>
         </div>
