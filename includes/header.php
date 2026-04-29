@@ -102,10 +102,16 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li class="nav-item"><a class="nav-link" href="/GolfClass/index.php">Profesores</a></li>
                 
                 <?php if (isset($_SESSION['user_id'])): ?>
+                    <?php if ($_SESSION['user_role'] == 1): ?>
+                        <li class="nav-item"><a class="nav-link fw-semibold text-golf" href="/GolfClass/pages/admin/panel.php">Panel Admin</a></li>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['user_role'] == 3): ?>
+                        <li class="nav-item"><a class="nav-link" href="/GolfClass/pages/student/mis_reservas.php">Mis Reservas</a></li>
+                    <?php endif; ?>
                     <li class="nav-item"><a class="nav-link" href="/GolfClass/pages/student/profile.php">Mi Perfil</a></li>
                     <li class="nav-item">
                         <span class="badge bg-light text-dark border ms-2 p-2">
-                            👤 <?php echo $_SESSION['user_name']; ?>
+                            👤 <?php echo htmlspecialchars($_SESSION['user_name']); ?>
                         </span>
                     </li>
                     <li class="nav-item"><a class="btn btn-outline-danger btn-sm ms-3" href="/GolfClass/pages/auth/logout.php">Salir</a></li>
