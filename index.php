@@ -2,19 +2,21 @@
 require_once 'includes/db.php';
 include 'includes/header.php';
 
-// Top 3 para el carrusel
+// Top 6 para el carrusel (se muestran 3 por slide)
 $stmt = $pdo->query("
-    SELECT p.id_profesor, p.foto_perfil, p.precio_hora, p.puntuacion_simulada, p.bio, p.experiencia_anos,
+    SELECT p.id_profesor, p.foto_perfil, p.precio_hora, p.puntuacion_simulada,
+           p.experiencia_anos, p.ubicacion, p.clases_online,
            u.nombre, u.apellidos,
            c.nombre_campo, c.ciudad
     FROM profesores p
     JOIN usuarios u ON p.id_usuario = u.id_usuario
-    JOIN campos_golf c ON p.id_campo = c.id_campo
+    LEFT JOIN campos_golf c ON p.id_campo = c.id_campo
     WHERE p.activo = 1 AND u.activo = 1
     ORDER BY p.puntuacion_simulada DESC
-    LIMIT 3
+    LIMIT 6
 ");
-$top_profesores = $stmt->fetchAll();
+$top_profesores  = $stmt->fetchAll();
+$carousel_chunks = array_chunk($top_profesores, 3);
 
 ?>
 
@@ -68,7 +70,7 @@ $top_profesores = $stmt->fetchAll();
 <!-- ═══════════════════════════════════════════
      CARRUSEL: Profesores de Élite
 ═══════════════════════════════════════════ -->
-<?php if (!empty($top_profesores)): ?>
+<?php if (!empty($carousel_chunks)): ?>
 <section class="py-5" style="background:#111;">
     <div class="container">
         <div class="text-center mb-4">
@@ -76,83 +78,100 @@ $top_profesores = $stmt->fetchAll();
             <h2 class="fw-bold text-white mb-0">Profesores de <span class="text-golf">Élite</span></h2>
         </div>
 
-        <div id="carouselElite" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4500">
+        <div id="carouselElite" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
 
-            <div class="carousel-indicators">
-                <?php foreach ($top_profesores as $i => $_): ?>
-                    <button type="button" data-bs-target="#carouselElite" data-bs-slide-to="<?php echo $i; ?>"
+            <!-- Indicadores -->
+            <div class="carousel-indicators mb-0" style="bottom:-2rem;">
+                <?php foreach ($carousel_chunks as $i => $_): ?>
+                    <button type="button" data-bs-target="#carouselElite"
+                            data-bs-slide-to="<?php echo $i; ?>"
                             <?php echo $i === 0 ? 'class="active" aria-current="true"' : ''; ?>></button>
                 <?php endforeach; ?>
             </div>
 
-            <div class="carousel-inner py-4">
-                <?php foreach ($top_profesores as $i => $p): ?>
-                    <div class="carousel-item <?php echo $i === 0 ? 'active' : ''; ?>">
-                        <div class="d-flex justify-content-center">
-                            <div class="card border-0 shadow-lg text-center carousel-card">
-                                <div class="card-body p-5">
-                                    <!-- Avatar -->
-                                    <?php if (!empty($p['foto_perfil'])): ?>
-                                        <img src="uploads/<?php echo htmlspecialchars($p['foto_perfil']); ?>"
-                                             class="rounded-circle mb-3" style="width:100px;height:100px;object-fit:cover;" alt="Foto">
-                                    <?php else: ?>
-                                        <div class="carousel-avatar mx-auto mb-3">
-                                            <?php echo strtoupper(mb_substr($p['nombre'], 0, 1) . mb_substr($p['apellidos'], 0, 1)); ?>
+            <div class="carousel-inner pb-5">
+                <?php foreach ($carousel_chunks as $ci => $chunk): ?>
+                    <div class="carousel-item <?php echo $ci === 0 ? 'active' : ''; ?>">
+                        <div class="row g-3 justify-content-center px-5">
+                            <?php
+                            // Rank global del primer profesor del chunk
+                            $rank_base = $ci * 3;
+                            foreach ($chunk as $j => $p):
+                                $rank = $rank_base + $j + 1;
+                                $ubicacion = $p['ubicacion']
+                                    ?: (($p['nombre_campo'] ?? '') . (isset($p['ciudad']) ? ', ' . $p['ciudad'] : ''));
+                            ?>
+                            <div class="col-12 col-md-4">
+                                <div class="card border-0 shadow text-center h-100 elite-card">
+                                    <div class="card-body p-3 d-flex flex-column">
+
+                                        <!-- Rank badge -->
+                                        <div class="mb-2">
+                                            <span class="badge rounded-pill px-2 py-1"
+                                                  style="background:var(--golf-red);font-size:.72rem;">
+                                                #<?php echo $rank; ?> Élite
+                                            </span>
                                         </div>
-                                    <?php endif; ?>
 
-                                    <!-- Medalla de posición -->
-                                    <div class="position-absolute top-0 start-50 translate-middle-x mt-3">
-                                        <span class="badge rounded-pill px-3 py-2"
-                                              style="background:var(--golf-red);font-size:.8rem;">
-                                            #<?php echo $i + 1; ?> Élite
-                                        </span>
-                                    </div>
+                                        <!-- Avatar -->
+                                        <div class="gc-avatar gc-avatar-md mx-auto mb-2">
+                                            <?php if (!empty($p['foto_perfil'])): ?>
+                                                <img src="uploads/<?php echo htmlspecialchars($p['foto_perfil']); ?>" alt="">
+                                            <?php else: ?>
+                                                <?php echo strtoupper(mb_substr($p['nombre'],0,1).mb_substr($p['apellidos']??'',0,1)); ?>
+                                            <?php endif; ?>
+                                        </div>
 
-                                    <h4 class="fw-bold mb-1"><?php echo htmlspecialchars($p['nombre'] . ' ' . $p['apellidos']); ?></h4>
-                                    <p class="text-muted mb-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-geo-alt-fill me-1" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
-                                        <?php echo htmlspecialchars($p['nombre_campo'] . ', ' . $p['ciudad']); ?>
-                                    </p>
+                                        <h6 class="fw-bold mb-0 text-truncate">
+                                            <?php echo htmlspecialchars($p['nombre'] . ' ' . $p['apellidos']); ?>
+                                        </h6>
+                                        <small class="text-muted d-block text-truncate mb-2">
+                                            <?php echo htmlspecialchars($ubicacion); ?>
+                                        </small>
 
-                                    <div class="mb-3">
-                                        <?php
-                                        $s = round((float)($p['puntuacion_simulada'] ?? 5));
-                                        echo '<span class="text-warning fs-5">' . str_repeat('★', $s) . str_repeat('☆', 5 - $s) . '</span>';
-                                        echo ' <span class="fw-bold text-golf">' . number_format($p['puntuacion_simulada'] ?? 5, 1) . '</span>';
-                                        ?>
-                                    </div>
+                                        <!-- Stars -->
+                                        <div class="mb-2">
+                                            <?php
+                                            $s = round((float)($p['puntuacion_simulada'] ?? 5));
+                                            echo '<span class="text-warning">' . str_repeat('★',$s) . str_repeat('☆',5-$s) . '</span>';
+                                            echo ' <small class="fw-bold text-golf">' . number_format($p['puntuacion_simulada']??5,1) . '</small>';
+                                            ?>
+                                        </div>
 
-                                    <?php if (!empty($p['bio'])): ?>
-                                        <p class="text-muted small mb-3 px-2">
-                                            <?php echo htmlspecialchars(mb_substr($p['bio'], 0, 130)) . '…'; ?>
+                                        <!-- Badges -->
+                                        <div class="d-flex justify-content-center gap-1 flex-wrap mb-3">
+                                            <?php if (!empty($p['experiencia_anos'])): ?>
+                                                <span class="badge bg-light text-dark border" style="font-size:.68rem;">
+                                                    <?php echo (int)$p['experiencia_anos']; ?> años
+                                                </span>
+                                            <?php endif; ?>
+                                            <?php if (!empty($p['clases_online'])): ?>
+                                                <span class="badge" style="background:var(--golf-red);font-size:.68rem;">Online</span>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <p class="fw-bold text-golf mt-auto mb-2 fs-5">
+                                            <?php echo number_format($p['precio_hora'],0); ?>€<small class="text-muted fw-normal" style="font-size:.75rem;">/h</small>
                                         </p>
-                                    <?php endif; ?>
-
-                                    <div class="d-flex align-items-center justify-content-center gap-3 mb-4">
-                                        <?php if (!empty($p['experiencia_anos'])): ?>
-                                            <span class="badge bg-light text-dark border"><?php echo (int)$p['experiencia_anos']; ?> años</span>
-                                        <?php endif; ?>
-                                        <span class="fs-4 fw-bold text-golf">
-                                            <?php echo number_format($p['precio_hora'], 0); ?>€<small class="text-muted fw-normal fs-6">/h</small>
-                                        </span>
+                                        <a href="pages/booking/book_class.php?id=<?php echo $p['id_profesor']; ?>"
+                                           class="btn btn-golf btn-sm w-100">
+                                            Reservar
+                                        </a>
                                     </div>
-
-                                    <a href="pages/booking/book_class.php?id=<?php echo $p['id_profesor']; ?>"
-                                       class="btn btn-golf px-5">
-                                        Reservar clase
-                                    </a>
                                 </div>
                             </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselElite" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselElite" data-bs-slide="prev"
+                    style="width:40px;">
                 <span class="carousel-control-prev-icon"></span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselElite" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselElite" data-bs-slide="next"
+                    style="width:40px;">
                 <span class="carousel-control-next-icon"></span>
             </button>
         </div>
@@ -385,12 +404,8 @@ $top_profesores = $stmt->fetchAll();
     .hero-search-group .form-control:focus { box-shadow: none; }
 
     /* ── Carrusel ── */
-    .carousel-card { max-width: 440px; width: 100%; position: relative; border-radius: 16px; }
-    .carousel-avatar {
-        width: 100px; height: 100px; background: var(--golf-red); color: white;
-        font-weight: 700; font-size: 2rem; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-    }
+    .elite-card { border-radius: 14px; transition: transform .2s; }
+    .elite-card:hover { transform: translateY(-3px); }
 
     /* ── Cómo funciona ── */
     .como-step {

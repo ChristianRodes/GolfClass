@@ -24,8 +24,9 @@
                         </div>
                         <button type="submit" class="btn btn-golf w-100 mt-3">Entrar</button>
                     </form>
-                    <div class="text-center mt-3">
-                        <a href="register.php" class="text-muted">¿No tienes cuenta? Regístrate aquí</a>
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="forgot_password.php" class="text-muted small">¿Olvidaste tu contraseña?</a>
+                        <a href="register.php" class="text-muted small">Crear cuenta</a>
                     </div>
                 </div>
             </div>
