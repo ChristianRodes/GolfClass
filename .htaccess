@@ -1,0 +1,7 @@
+Options -Indexes
+
+# Block direct access to sensitive files
+<FilesMatch "(db\.php|db\.example\.php|\.md|\.sql)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>

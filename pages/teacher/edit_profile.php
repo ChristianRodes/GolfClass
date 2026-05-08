@@ -3,7 +3,7 @@ session_start();
 require_once '../../includes/db.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 2) {
-    header("Location: /GolfClass/index.php");
+    header("Location: /index.php");
     exit();
 }
 
@@ -70,7 +70,7 @@ include '../../includes/header.php';
                                    value="<?php echo htmlspecialchars($usuario['email']); ?>" readonly>
                         </div>
                     </div>
-                    <small class="text-muted">Para cambiar estos datos ve a <a href="/GolfClass/pages/student/profile.php">Mi Perfil</a>.</small>
+                    <small class="text-muted">Para cambiar estos datos ve a <a href="/pages/student/profile.php">Mi Perfil</a>.</small>
                 </div>
             </div>
 
@@ -92,7 +92,7 @@ include '../../includes/header.php';
                                      title="Haz clic para cambiar la foto">
                                     <?php if (!empty($profesor['foto_perfil'])): ?>
                                         <img id="previewImg"
-                                             src="/GolfClass/uploads/<?php echo htmlspecialchars($profesor['foto_perfil']); ?>"
+                                             src="/uploads/<?php echo htmlspecialchars($profesor['foto_perfil']); ?>"
                                              alt="">
                                     <?php else: ?>
                                         <span id="previewInitials">
@@ -215,7 +215,7 @@ include '../../includes/header.php';
 
                         <div class="d-flex gap-2 pt-2">
                             <button type="submit" class="btn btn-golf px-4">Guardar cambios</button>
-                            <a href="/GolfClass/pages/profesores/catalogo.php" class="btn btn-outline-secondary">Ver catálogo</a>
+                            <a href="/pages/profesores/catalogo.php" class="btn btn-outline-secondary">Ver catálogo</a>
                         </div>
                     </form>
                 </div>

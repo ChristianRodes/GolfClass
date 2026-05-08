@@ -3,7 +3,7 @@ session_start();
 require_once '../../includes/db.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 2) {
-    header("Location: /GolfClass/index.php");
+    header("Location: /index.php");
     exit();
 }
 
@@ -360,7 +360,7 @@ include '../../includes/header.php';
                                     </div>
 
                                     <!-- Chat con el alumno -->
-                                    <a href="/GolfClass/pages/chat/conversacion.php?con=<?php
+                                    <a href="/pages/chat/conversacion.php?con=<?php
                                         $stmt_auid = $pdo->prepare("SELECT id_alumno FROM reservas WHERE id_reserva=?");
                                         $stmt_auid->execute([$r['id_reserva']]);
                                         echo (int)$stmt_auid->fetchColumn();

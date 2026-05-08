@@ -20,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ->execute([$token, $expiry, $user['id_usuario']]);
 
         // En producción esto se enviaría por email. En el TFG mostramos el enlace directamente.
-        $link = "http://localhost/GolfClass/pages/auth/reset_password.php?token={$token}";
+        $base = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+        $link = $base . "/pages/auth/reset_password.php?token={$token}";
         $msg_ok = "Enlace generado (en producción se enviaría por email):<br>
                    <a href='{$link}' class='alert-link'>{$link}</a>";
     } else {

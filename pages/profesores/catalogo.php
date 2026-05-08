@@ -103,7 +103,7 @@ include '../../includes/header.php';
                             <div class="d-flex align-items-center mb-3">
                                 <div class="gc-avatar gc-avatar-md me-3">
                                     <?php if (!empty($p['foto_perfil'])): ?>
-                                        <img src="/GolfClass/uploads/<?php echo htmlspecialchars($p['foto_perfil']); ?>" alt="">
+                                        <img src="/uploads/<?php echo htmlspecialchars($p['foto_perfil']); ?>" alt="">
                                     <?php else: ?>
                                         <?php echo strtoupper(mb_substr($p['nombre'],0,1).mb_substr($p['apellidos']??'',0,1)); ?>
                                     <?php endif; ?>
@@ -161,7 +161,7 @@ include '../../includes/header.php';
                                 </span>
                             </div>
 
-                            <a href="/GolfClass/pages/booking/book_class.php?id=<?php echo $p['id_profesor']; ?>"
+                            <a href="/pages/booking/book_class.php?id=<?php echo $p['id_profesor']; ?>"
                                class="btn btn-golf w-100">
                                 Reservar clase
                             </a>

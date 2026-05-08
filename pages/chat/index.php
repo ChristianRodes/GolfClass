@@ -3,7 +3,7 @@ session_start();
 require_once '../../includes/db.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /GolfClass/pages/auth/login.php"); exit();
+    header("Location: /pages/auth/login.php"); exit();
 }
 
 $yo = (int) $_SESSION['user_id'];

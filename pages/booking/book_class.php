@@ -3,14 +3,14 @@ session_start();
 require_once '../../includes/db.php';
 
 if (!isset($_SESSION['user_id'])) {
-    $current = urlencode('/GolfClass/pages/booking/book_class.php?' . $_SERVER['QUERY_STRING']);
-    header("Location: /GolfClass/pages/auth/login.php?redirect={$current}");
+    $current = urlencode('/pages/booking/book_class.php?' . $_SERVER['QUERY_STRING']);
+    header("Location: /pages/auth/login.php?redirect={$current}");
     exit();
 }
 
 $id_profesor = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$id_profesor) {
-    header("Location: /GolfClass/pages/profesores/catalogo.php");
+    header("Location: /pages/profesores/catalogo.php");
     exit();
 }
 
@@ -29,7 +29,7 @@ $stmt->execute([$id_profesor]);
 $profesor = $stmt->fetch();
 
 if (!$profesor) {
-    header("Location: /GolfClass/pages/profesores/catalogo.php");
+    header("Location: /pages/profesores/catalogo.php");
     exit();
 }
 
@@ -64,7 +64,7 @@ include '../../includes/header.php';
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
-            <a href="/GolfClass/pages/profesores/catalogo.php" class="btn btn-outline-secondary btn-sm mb-4">
+            <a href="/pages/profesores/catalogo.php" class="btn btn-outline-secondary btn-sm mb-4">
                 ← Volver al catálogo
             </a>
 
@@ -80,7 +80,7 @@ include '../../includes/header.php';
                         <!-- Avatar -->
                         <div class="gc-avatar gc-avatar-lg flex-shrink-0">
                             <?php if (!empty($profesor['foto_perfil'])): ?>
-                                <img src="/GolfClass/uploads/<?php echo htmlspecialchars($profesor['foto_perfil']); ?>" alt="">
+                                <img src="/uploads/<?php echo htmlspecialchars($profesor['foto_perfil']); ?>" alt="">
                             <?php else: ?>
                                 <?php echo strtoupper(mb_substr($profesor['nombre'],0,1).mb_substr($profesor['apellidos']??'',0,1)); ?>
                             <?php endif; ?>

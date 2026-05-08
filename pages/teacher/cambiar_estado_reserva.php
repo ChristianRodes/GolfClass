@@ -4,7 +4,7 @@ require_once '../../includes/db.php';
 require_once '../../includes/strikes.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 2 || $_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: /GolfClass/index.php"); exit();
+    header("Location: /index.php"); exit();
 }
 
 $id_usuario   = (int) $_SESSION['user_id'];

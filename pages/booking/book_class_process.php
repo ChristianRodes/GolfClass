@@ -4,7 +4,7 @@ require_once '../../includes/db.php';
 require_once '../../includes/strikes.php';
 
 if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: /GolfClass/pages/auth/login.php"); exit();
+    header("Location: /pages/auth/login.php"); exit();
 }
 
 $yo          = (int) $_SESSION['user_id'];
@@ -20,7 +20,7 @@ if (!$id_profesor || !$fecha_clase || !$hora_inicio) {
 $ban = check_ban($pdo, $yo);
 if ($ban === 'permanente') {
     session_destroy();
-    header("Location: /GolfClass/pages/auth/login.php?error=bloqueado_permanente"); exit();
+    header("Location: /pages/auth/login.php?error=bloqueado_permanente"); exit();
 }
 if ($ban === 'temporal') {
     header("Location: book_class.php?id={$id_profesor}&error=ban"); exit();
@@ -61,7 +61,7 @@ try {
         VALUES (?, ?, ?, ?, ?, 'Pendiente', 1)
     ")->execute([$yo, $id_profesor, $fecha_clase, $hora_inicio, $hora_fin]);
 
-    header("Location: /GolfClass/pages/student/mis_reservas.php?success=1"); exit();
+    header("Location: /pages/student/mis_reservas.php?success=1"); exit();
 } catch (\PDOException $e) {
     header("Location: book_class.php?id={$id_profesor}&error=db"); exit();
 }

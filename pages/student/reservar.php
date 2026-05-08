@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $id_profesor = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$id_profesor) {
-    header("Location: /GolfClass/index.php");
+    header("Location: /index.php");
     exit();
 }
 
@@ -26,7 +26,7 @@ $stmt->execute([$id_profesor]);
 $profesor = $stmt->fetch();
 
 if (!$profesor) {
-    header("Location: /GolfClass/index.php");
+    header("Location: /index.php");
     exit();
 }
 
@@ -45,7 +45,7 @@ include '../../includes/header.php';
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
-            <a href="/GolfClass/index.php#profesores" class="btn btn-outline-secondary btn-sm mb-4">← Volver al catálogo</a>
+            <a href="/index.php#profesores" class="btn btn-outline-secondary btn-sm mb-4">← Volver al catálogo</a>
 
             <?php if (isset($_GET['error'])): ?>
                 <div class="alert alert-danger">
@@ -67,7 +67,7 @@ include '../../includes/header.php';
                 <div class="card-body p-4">
                     <div class="d-flex align-items-center">
                         <?php if (!empty($profesor['foto_perfil']) && file_exists('../../uploads/' . $profesor['foto_perfil'])): ?>
-                            <img src="/GolfClass/uploads/<?php echo htmlspecialchars($profesor['foto_perfil']); ?>"
+                            <img src="/uploads/<?php echo htmlspecialchars($profesor['foto_perfil']); ?>"
                                  class="rounded-circle me-4" style="width:80px;height:80px;object-fit:cover;" alt="Foto">
                         <?php else: ?>
                             <div class="rounded-circle d-flex align-items-center justify-content-center me-4"

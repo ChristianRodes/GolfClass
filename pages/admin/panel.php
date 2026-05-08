@@ -3,7 +3,7 @@ session_start();
 require_once '../../includes/db.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 1) {
-    header("Location: /GolfClass/index.php"); exit();
+    header("Location: /index.php"); exit();
 }
 
 // Cambiar estado de una reserva

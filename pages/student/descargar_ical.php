@@ -29,7 +29,7 @@ $now     = gmdate('Ymd\THis\Z');
 
 $ical = "BEGIN:VCALENDAR\r\n";
 $ical .= "VERSION:2.0\r\n";
-$ical .= "PRODID:-//GolfClass//ES\r\n";
+$ical .= "PRODID:-///ES\r\n";
 $ical .= "BEGIN:VEVENT\r\n";
 $ical .= "UID:golfclass-reserva-{$r['id_reserva']}@golfclass.com\r\n";
 $ical .= "DTSTAMP:{$now}\r\n";

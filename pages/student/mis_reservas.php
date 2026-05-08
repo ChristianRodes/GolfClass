@@ -104,7 +104,7 @@ include '../../includes/header.php';
     <!-- Encabezado -->
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
         <h2 class="fw-bold mb-0">Mis <span class="text-golf">Reservas</span></h2>
-        <a href="/GolfClass/pages/profesores/catalogo.php" class="btn btn-golf">+ Nueva reserva</a>
+        <a href="/pages/profesores/catalogo.php" class="btn btn-golf">+ Nueva reserva</a>
     </div>
 
     <!-- Alertas de cancelación / strikes -->
@@ -288,7 +288,7 @@ include '../../includes/header.php';
     <?php if (empty($reservas)): ?>
         <div class="text-center py-5">
             <p class="text-muted fs-5">No hay reservas con este filtro.</p>
-            <a href="/GolfClass/pages/profesores/catalogo.php" class="btn btn-golf mt-2">Explorar instructores</a>
+            <a href="/pages/profesores/catalogo.php" class="btn btn-golf mt-2">Explorar instructores</a>
         </div>
     <?php else: ?>
         <div class="row g-3">
@@ -344,7 +344,7 @@ include '../../includes/header.php';
                                 $stmt_uid->execute([$r['id_profesor']]);
                                 $uid_prof = $stmt_uid->fetchColumn();
                                 ?>
-                                <a href="/GolfClass/pages/chat/conversacion.php?con=<?php echo $uid_prof; ?>"
+                                <a href="/pages/chat/conversacion.php?con=<?php echo $uid_prof; ?>"
                                    class="btn btn-outline-secondary btn-sm" title="Chat">💬</a>
                                 <button class="btn btn-outline-secondary btn-sm"
                                         data-bs-toggle="modal" data-bs-target="#modalQR_<?php echo $r['id_reserva']; ?>"
